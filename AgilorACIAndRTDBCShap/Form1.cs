@@ -59,9 +59,13 @@ namespace AgilorACIAndRTDBCShap
 
             foreach (var device in rtdbs)
             {
-                device.Value.WriteValue(value);
+                if (device.Value.WriteValue(value))
+                {
+                    textBox_log_messages.Invoke(new Action<string>(textBox_log_messages.AppendText), new string[] { "Agilor RTDB Device: " + device.Key + " !\n" });
+                    break;
+                }
             }
-            
+
             textBox_log_messages.Invoke(new Action<string>(textBox_log_messages.AppendText), new string[] { "Agilor RTDB Value Set:\n" });
             textBox_log_messages.Invoke(new Action<string>(textBox_log_messages.AppendText), new string[] { "Name:" + value.Name + "\n" });
             textBox_log_messages.Invoke(new Action<string>(textBox_log_messages.AppendText), new string[] { "Value:" + value.Val + "\n" });
